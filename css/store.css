@@ -1,0 +1,492 @@
+/* ==========================================================================
+   MIXORA STORE & CART - STRAWBERRY BERRY + MANGO GOLD THEME
+   ========================================================================== */
+
+@keyframes fadeInUpSm {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.store-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUpSm 0.5s ease both;
+}
+
+.store-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #FFF7ED 0%, #FFC857 70%, #FF6B81 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.store-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin-bottom: 3.5rem;
+    align-items: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(68, 35, 49, 0.85);
+    border: 1.5px solid rgba(255, 200, 87, 0.35);
+    border-radius: var(--radius-full);
+    padding: 0.65rem 1.4rem;
+    width: 100%;
+    max-width: 460px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    color: #FFF7ED;
+}
+
+.search-box:focus-within {
+    border-color: #FFC857;
+    box-shadow: 0 6px 24px rgba(255, 200, 87, 0.35);
+    transform: scale(1.02);
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    padding: 0.4rem 0.6rem;
+    width: 100%;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    background: transparent;
+    color: #FFF7ED;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 247, 237, 0.55);
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: center;
+}
+
+.filter-btn {
+    background: rgba(59, 31, 43, 0.8);
+    border: 1.5px solid rgba(255, 200, 87, 0.25);
+    border-radius: var(--radius-full);
+    padding: 0.55rem 1.3rem;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--clr-cream);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-btn:hover {
+    border-color: #FFC857;
+    color: #FFC857;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 200, 87, 0.25);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+    color: #3B1F2B;
+    border-color: transparent;
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 6px 20px rgba(255, 107, 129, 0.45);
+}
+
+/* ==========================================================================
+   PREMIUM MENU CARDS (Luxury Cafe Storefront)
+   ========================================================================== */
+.drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.25rem;
+    margin-top: 1.5rem;
+}
+
+.drink-card {
+    background: rgba(68, 35, 49, 0.85);
+    backdrop-filter: blur(16px);
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(255, 200, 87, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    padding: 1.6rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drink-card:hover {
+    transform: translateY(-8px);
+    border-color: #FFC857;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 107, 129, 0.3);
+}
+
+.drink-card-badge {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    z-index: 5;
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+    color: #3B1F2B;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    padding: 0.28rem 0.75rem;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(255, 107, 129, 0.4);
+}
+
+.drink-card-badge.featured {
+    background: linear-gradient(135deg, #A8D5BA 0%, #FFC857 100%);
+}
+
+.drink-img-container {
+    height: 220px;
+    background: radial-gradient(circle at center, rgba(95, 48, 69, 0.85) 0%, rgba(46, 23, 33, 0.95) 100%);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 200, 87, 0.15);
+}
+
+.drink-img-container svg {
+    max-height: 85%;
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.45));
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.drink-card:hover .drink-img-container svg {
+    transform: scale(1.12) rotate(2deg);
+}
+
+.drink-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.drink-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
+}
+
+.drink-header h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #FFF7ED;
+    line-height: 1.25;
+    margin: 0;
+}
+
+.drink-price {
+    font-weight: 900;
+    color: #FFC857;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+}
+
+.drink-desc {
+    color: rgba(255, 247, 237, 0.78);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1.15rem;
+    flex: 1;
+}
+
+.drink-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 200, 87, 0.15);
+    font-size: 0.78rem;
+    color: rgba(255, 247, 237, 0.65);
+}
+
+.sizes-list {
+    display: flex;
+    gap: 0.35rem;
+}
+
+.size-pill {
+    padding: 0.2rem 0.55rem;
+    background: rgba(255, 247, 237, 0.1);
+    border-radius: var(--radius-sm);
+    color: #FFF7ED;
+    font-weight: 600;
+}
+
+.customizable-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #A8D5BA;
+    font-weight: 600;
+}
+
+.drink-actions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+    margin-top: auto;
+}
+
+.drink-actions-row .btn {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.88rem;
+    white-space: nowrap;
+}
+
+.view-details-btn {
+    width: 100%;
+    margin-top: 0.65rem;
+    background: transparent;
+    border: none;
+    color: #FFC857;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s ease;
+    padding: 0.25rem 0;
+}
+
+.view-details-btn:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Drink Details Modal */
+.drink-details-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(29, 14, 21, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.drink-details-modal.active {
+    display: flex;
+}
+
+.drink-details-content {
+    background: rgba(68, 35, 49, 0.98);
+    border: 1.5px solid rgba(255, 200, 87, 0.4);
+    border-radius: var(--radius-lg);
+    max-width: 520px;
+    width: 100%;
+    padding: 2.25rem;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    color: #FFF7ED;
+    animation: fadeInUpSm 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Cart Page */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    animation: fadeInUpSm 0.5s ease both;
+}
+
+.cart-items {
+    background: rgba(68, 35, 49, 0.8);
+    backdrop-filter: blur(14px);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 200, 87, 0.2);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid rgba(255, 200, 87, 0.15);
+    gap: 1.5rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.cart-item:hover {
+    transform: translateX(4px);
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-img {
+    width: 88px;
+    height: 88px;
+    background: radial-gradient(circle, rgba(95, 48, 69, 0.9) 0%, rgba(46, 23, 33, 0.9) 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 200, 87, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover .cart-item-img {
+    transform: scale(1.06);
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-weight: 800;
+    color: var(--clr-cream);
+    font-size: 1.2rem;
+}
+
+.cart-item-details {
+    font-size: 0.9rem;
+    color: var(--clr-cream-muted);
+    margin-top: 0.3rem;
+    line-height: 1.45;
+}
+
+.cart-item-price {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #FFC857;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: rgba(43, 20, 31, 0.85);
+    border-radius: var(--radius-full);
+    padding: 0.3rem 0.55rem;
+    border: 1px solid rgba(255, 200, 87, 0.25);
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 247, 237, 0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #FFF7ED;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease;
+}
+
+.qty-btn:hover {
+    transform: scale(1.15);
+    background: #FF6B81;
+    color: #3B1F2B;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #FF6B81;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.remove-btn:hover {
+    transform: scale(1.1);
+    color: #ff4757;
+}
+
+.cart-summary {
+    background: rgba(68, 35, 49, 0.85);
+    backdrop-filter: blur(14px);
+    border-radius: var(--radius-lg);
+    padding: 2.25rem;
+    box-shadow: var(--shadow-sm);
+    border: 1.5px solid rgba(255, 200, 87, 0.25);
+    position: sticky;
+    top: 100px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-summary:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--clr-cream-muted);
+}
+
+.summary-row span:last-child {
+    font-weight: 700;
+    color: var(--clr-cream);
+}
+
+.summary-total {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #FFC857;
+    border-top: 1.5px solid rgba(255, 200, 87, 0.25);
+    padding-top: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.summary-total span:last-child {
+    color: #FFC857;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .cart-item-actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+}

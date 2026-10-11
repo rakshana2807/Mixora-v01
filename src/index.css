@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clr-bg: #3B1F2B;
+  --clr-primary: #FF6B81;
+  --clr-mango: #FFC857;
+  --clr-cream: #FFF7ED;
+  --clr-mint: #A8D5BA;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #3B1F2B;
+  color: #FFF7ED;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}

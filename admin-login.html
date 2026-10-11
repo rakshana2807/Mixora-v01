@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIXORA | Shop Owner Login</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body {
+            background-color: var(--clr-deep-berry, #3B1F2B);
+            background-image: radial-gradient(circle at 50% 20%, rgba(255, 107, 129, 0.12) 0%, rgba(59, 31, 43, 0.98) 75%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1.5rem;
+            font-family: var(--font-main, 'Outfit', sans-serif);
+        }
+        
+        .login-card {
+            background: #FFFFFF;
+            padding: 3rem 2.5rem;
+            border-radius: var(--radius-lg, 24px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(233, 221, 224, 0.6);
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .login-card .logo {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--clr-deep-berry, #3B1F2B);
+            margin-bottom: 0.75rem;
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        .login-card .logo:hover {
+            color: var(--clr-strawberry, #FF6B81);
+        }
+        
+        .login-card h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--clr-deep-berry, #3B1F2B) !important;
+            letter-spacing: -0.01em;
+        }
+        
+        .login-card p {
+            color: var(--clr-text-secondary, #75646A) !important;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--clr-espresso, #2B2024) !important;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1.5px solid var(--clr-border-solid, #E9DDE0);
+            border-radius: var(--radius-md, 14px);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--clr-espresso, #2B2024) !important;
+            background-color: #FFFFFF;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-control::placeholder {
+            color: #9E8E94;
+            opacity: 1;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--clr-strawberry, #FF6B81);
+            box-shadow: 0 0 0 3.5px rgba(255, 107, 129, 0.22);
+            background-color: #FFFFFF;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 0.85rem;
+            top: 2.35rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--clr-text-secondary, #75646A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem;
+            border-radius: 6px;
+            transition: color 0.2s ease;
+        }
+        .password-toggle:hover {
+            color: var(--clr-deep-berry, #3B1F2B);
+        }
+        .password-toggle:focus-visible {
+            outline: 2px solid var(--clr-strawberry, #FF6B81);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 0.95rem 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            position: relative;
+            background: linear-gradient(135deg, #FF6B81 0%, #FF8597 45%, #FFC857 100%);
+            color: var(--clr-deep-berry, #3B1F2B) !important;
+            border: none;
+            border-radius: var(--radius-full, 999px);
+            box-shadow: 0 8px 20px rgba(255, 107, 129, 0.35);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(255, 107, 129, 0.45);
+            background: linear-gradient(135deg, #ff526b 0%, #FF6B81 45%, #ffd06b 100%);
+            color: var(--clr-espresso, #2B2024) !important;
+        }
+        .btn-login:focus-visible {
+            outline: 3px solid var(--clr-strawberry, #FF6B81);
+            outline-offset: 2px;
+        }
+        
+        .error-message {
+            color: var(--clr-error-red, #B42335);
+            background: #FDF2F2;
+            border: 1px solid #F8B4B4;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: left;
+            display: none;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 1.75rem;
+            color: var(--clr-espresso, #2B2024);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.92rem;
+            transition: var(--transition-fast);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+        
+        .back-link:hover {
+            color: var(--clr-strawberry, #FF6B81);
+            text-decoration: underline;
+        }
+        .back-link:focus-visible {
+            outline: 2px solid var(--clr-strawberry, #FF6B81);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid rgba(59, 31, 43, 0.25);
+            border-radius: 50%;
+            border-top-color: var(--clr-deep-berry, #3B1F2B);
+            animation: spin 0.8s linear infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .btn-loading {
+            color: transparent !important;
+        }
+        .btn-loading .spinner {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <main class="login-card">
+        <a href="index.html" class="logo">MIXORA</a>
+        <h1>Shop Owner Login</h1>
+        <p>Sign in to manage orders, drinks, ingredients, and shop operations.</p>
+        
+        <div class="error-message" id="login-error"></div>
+        
+        <form id="admin-login-form">
+            <div class="form-group">
+                <label for="admin-email">Admin Email</label>
+                <input type="email" id="admin-email" class="form-control" placeholder="owner@mixora.example" required autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="admin-secret">Secret Code</label>
+                <input type="password" id="admin-secret" class="form-control" placeholder="Enter your authorized code" required autocomplete="current-password">
+                <button type="button" class="password-toggle" id="toggle-secret" aria-label="Toggle secret visibility">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-login" id="btn-submit">
+                <span>Sign In</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+        
+        <a href="index.html" class="back-link">&larr; Back to Store</a>
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/admin-login.js"></script>
+</body>
+</html>

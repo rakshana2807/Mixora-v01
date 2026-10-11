@@ -1,0 +1,848 @@
+:root {
+    /* ==========================================================================
+       MIXORA ULTRA THEME: Strawberry Berry + Mango + Vanilla Cream
+       ========================================================================== */
+    --clr-bg: #3B1F2B;             /* Deep Berry (Background) */
+    --clr-bg-subtle: #4D2837;      /* Lighter Deep Berry for subtle contrast */
+    --clr-bg-card: rgba(68, 35, 49, 0.75); /* Frosted Glass Berry */
+    
+    --clr-primary: #FF6B81;        /* Strawberry (Primary Brand) */
+    --clr-primary-hover: #ff526b;
+    --clr-primary-glow: rgba(255, 107, 129, 0.45);
+    
+    --clr-mango: #FFC857;          /* Mango Gold */
+    --clr-mango-hover: #ffbf3d;
+    --clr-mango-glow: rgba(255, 200, 87, 0.4);
+    
+    --clr-cream: #FFF7ED;          /* Vanilla Cream (Text & Highlights) */
+    --clr-cream-soft: rgba(255, 247, 237, 0.85);
+    --clr-cream-muted: rgba(255, 247, 237, 0.65);
+    
+    --clr-mint: #A8D5BA;           /* Mint Accent */
+    --clr-mint-glow: rgba(168, 213, 186, 0.35);
+
+    /* Mappings to existing variables for 100% component compatibility */
+    --clr-accent: #FFC857;         /* Mango Gold as vibrant secondary */
+    --clr-accent-glow: rgba(255, 200, 87, 0.45);
+    --clr-text-main: #FFF7ED;      /* Vanilla Cream primary text */
+    --clr-text-muted: rgba(255, 247, 237, 0.7);
+    --clr-white: #FFFFFF;
+    --clr-border: rgba(255, 200, 87, 0.22);       /* Mango gold border trace */
+    --clr-border-light: rgba(255, 247, 237, 0.12); /* Subtle cream border */
+
+    /* Status Colors */
+    --clr-success: #A8D5BA;        /* Mint */
+    --clr-error: #FF4757;
+    --clr-warning: #FFC857;        /* Mango */
+
+    /* Canonical Theme Tokens */
+    --clr-deep-berry: #3B1F2B;
+    --clr-espresso: #2B2024;
+    --clr-strawberry: #FF6B81;
+    --clr-gold: #FFC857;
+    --clr-vanilla: #FFF7ED;
+    --clr-card-white: #FFFFFF;
+    --clr-text-secondary: #75646A;
+    --clr-border-solid: #E9DDE0;
+    --clr-success-green: #246B45;
+    --clr-error-red: #B42335;
+    
+    /* Typography */
+    --font-main: 'Outfit', system-ui, -apple-system, sans-serif;
+    
+    /* High-Depth Glow Shadows */
+    --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 107, 129, 0.08);
+    --shadow-md: 0 14px 34px rgba(0, 0, 0, 0.35), 0 0 20px rgba(255, 107, 129, 0.18);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 35px rgba(255, 200, 87, 0.2);
+    --shadow-glow: 0 0 30px rgba(255, 107, 129, 0.55);
+    --shadow-mango: 0 0 30px rgba(255, 200, 87, 0.45);
+    
+    /* Border Radius */
+    --radius-sm: 10px;
+    --radius-md: 18px;
+    --radius-lg: 28px;
+    --radius-full: 999px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-base: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-bounce: 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Animations */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseSubtle {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 107, 129, 0.5);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 22px rgba(255, 200, 87, 0.7);
+    }
+}
+
+@keyframes floatGentle {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes ambientAuraOrbit {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(40px, -30px) scale(1.15);
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body:not(.admin-body) {
+    font-family: var(--font-main);
+    background-color: var(--clr-bg);
+    color: var(--clr-cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Vibrant Strawberry & Mango Ambient Glow Spheres (Shop & Customer storefront only) */
+body:not(.admin-body)::before {
+    content: '';
+    position: fixed;
+    top: -160px;
+    right: -140px;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(255, 107, 129, 0.28) 0%, rgba(255, 200, 87, 0.12) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: ambientAuraOrbit 22s ease-in-out infinite alternate;
+}
+
+body:not(.admin-body)::after {
+    content: '';
+    position: fixed;
+    bottom: -180px;
+    left: -150px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 200, 87, 0.22) 0%, rgba(168, 213, 186, 0.15) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(70px);
+    animation: ambientAuraOrbit 26s ease-in-out infinite alternate-reverse;
+}
+
+/* Typography (Exclude admin-body to prevent washed out headings) */
+body:not(.admin-body) h1,
+body:not(.admin-body) h2,
+body:not(.admin-body) h3,
+body:not(.admin-body) h4,
+body:not(.admin-body) h5,
+body:not(.admin-body) h6 {
+    color: var(--clr-cream);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+a {
+    color: var(--clr-primary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+a:hover {
+    color: var(--clr-mango);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.text-center { text-align: center; }
+body:not(.admin-body) .text-muted { color: var(--clr-cream-muted); }
+
+/* Layout Utilities */
+.container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.75rem;
+}
+
+.section-padding {
+    padding: 5rem 0;
+}
+
+/* Interactive Buttons: Strawberry & Mango Gradients */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.85rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: none;
+    outline: none;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    letter-spacing: 0.02em;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #FF6B81 0%, #FF8597 50%, #FFC857 100%);
+    color: #3B1F2B;
+    box-shadow: 0 8px 24px rgba(255, 107, 129, 0.45);
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+}
+
+.btn-primary:hover::after {
+    left: 170%;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #ff526b 0%, #FF6B81 50%, #ffd06b 100%);
+    color: #2D1420;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 34px rgba(255, 107, 129, 0.65), 0 0 20px rgba(255, 200, 87, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #FFC857 0%, #FFDA85 100%);
+    color: #3B1F2B;
+    box-shadow: 0 8px 24px rgba(255, 200, 87, 0.35);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #ffbe38 0%, #ffc857 100%);
+    color: #2D1420;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 32px rgba(255, 200, 87, 0.55);
+}
+
+body:not(.admin-body) .btn-outline {
+    background-color: rgba(255, 247, 237, 0.08);
+    color: var(--clr-cream);
+    border: 1.5px solid rgba(255, 200, 87, 0.45);
+    backdrop-filter: blur(10px);
+}
+
+body:not(.admin-body) .btn-outline:hover {
+    background-color: rgba(255, 200, 87, 0.2);
+    color: #FFC857;
+    border-color: #FFC857;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(255, 200, 87, 0.3);
+}
+
+/* Glassmorphism Navbar with Deep Berry Background & Mint Highlights */
+.navbar {
+    background: rgba(59, 31, 43, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 200, 87, 0.18);
+    padding: 1.15rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body:not(.admin-body) .logo {
+    font-size: 1.75rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.logo:hover {
+    transform: scale(1.06);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.25rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--clr-cream-soft);
+    font-weight: 500;
+    position: relative;
+    padding: 0.35rem 0;
+    transition: color 0.25s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0%;
+    height: 2.5px;
+    background: linear-gradient(90deg, #FF6B81, #FFC857);
+    border-radius: var(--radius-full);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #FFC857;
+    font-weight: 700;
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+.icon-link {
+    color: var(--clr-cream);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 247, 237, 0.08);
+    border: 1px solid rgba(255, 200, 87, 0.25);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.icon-link:hover {
+    background: rgba(255, 107, 129, 0.25);
+    color: #FFC857;
+    border-color: #FFC857;
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 4px 16px rgba(255, 107, 129, 0.4);
+}
+
+.cart-link .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+    color: #3B1F2B;
+    font-size: 0.75rem;
+    font-weight: 900;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(255, 107, 129, 0.6);
+    animation: pulseSubtle 2.5s infinite;
+}
+
+/* User Profile Nav Item & Dropdown */
+.profile-nav-wrapper {
+    position: relative;
+}
+
+.profile-link {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.user-initials-badge {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #3B1F2B;
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.05em;
+}
+
+.profile-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 230px;
+    background: rgba(59, 31, 43, 0.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1.5px solid rgba(255, 200, 87, 0.35);
+    border-radius: var(--radius-md);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 107, 129, 0.25);
+    padding: 0.75rem 0;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    animation: fadeInUpSm 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.profile-dropdown-menu.active {
+    display: flex;
+}
+
+.profile-menu-header {
+    padding: 0.75rem 1.25rem 0.65rem;
+    border-bottom: 1px solid rgba(255, 200, 87, 0.18);
+    margin-bottom: 0.4rem;
+}
+
+.profile-menu-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #FFF7ED;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-menu-role {
+    font-size: 0.75rem;
+    color: #FFC857;
+    font-weight: 600;
+}
+
+.profile-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 1.25rem;
+    color: rgba(255, 247, 237, 0.88);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.profile-dropdown-item:hover {
+    background: rgba(255, 107, 129, 0.2);
+    color: #FFC857;
+    padding-left: 1.5rem;
+}
+
+.profile-dropdown-divider {
+    height: 1px;
+    background: rgba(255, 200, 87, 0.15);
+    margin: 0.4rem 0;
+}
+
+.mobile-nav-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px;
+}
+
+.mobile-nav-toggle span {
+    width: 26px;
+    height: 2.5px;
+    background-color: var(--clr-cream);
+    border-radius: 2px;
+    transition: var(--transition-fast);
+}
+
+/* Hero Section */
+.hero {
+    padding: 6.5rem 0 5.5rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-container {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+    animation: fadeInSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-content h1 span {
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 70%, #FFF7ED 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+    font-size: 1.25rem;
+    color: var(--clr-cream-soft);
+    margin-bottom: 2.5rem;
+    max-width: 540px;
+    line-height: 1.65;
+    animation: fadeInSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    animation: fadeInSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.preview-drink-card {
+    background: rgba(68, 35, 49, 0.85);
+    backdrop-filter: blur(16px);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem;
+    box-shadow: var(--shadow-lg);
+    transform: rotate(2deg);
+    transition: var(--transition-bounce);
+    border: 1px solid rgba(255, 200, 87, 0.25);
+    animation: floatGentle 6s ease-in-out infinite alternate;
+}
+
+.preview-drink-card:hover {
+    transform: rotate(0deg) translateY(-12px) scale(1.02);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 107, 129, 0.3);
+    border-color: #FFC857;
+}
+
+.placeholder-drink {
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 50%, #3B1F2B 100%);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+}
+
+.preview-drink-info h3 {
+    margin-bottom: 0.5rem;
+}
+
+/* Steps Grid */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.step-card {
+    background: rgba(68, 35, 49, 0.75);
+    backdrop-filter: blur(14px);
+    padding: 2.5rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 200, 87, 0.15);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.step-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
+    border-color: #FFC857;
+    background: rgba(85, 44, 62, 0.85);
+}
+
+.step-number {
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+    color: #3B1F2B;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 6px 20px rgba(255, 107, 129, 0.5);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.step-card:hover .step-number {
+    transform: scale(1.15) rotate(6deg);
+}
+
+.step-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.35rem;
+    color: var(--clr-cream);
+}
+
+.bg-berry-light {
+    background-color: rgba(255, 107, 129, 0.15);
+}
+
+/* Product Cards */
+.drinks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
+}
+
+.drink-card {
+    background: rgba(68, 35, 49, 0.85);
+    backdrop-filter: blur(14px);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(255, 200, 87, 0.18);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.drink-card:hover {
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 25px rgba(255, 107, 129, 0.3);
+    transform: translateY(-8px);
+    border-color: #FFC857;
+}
+
+.drink-img-container {
+    height: 210px;
+    background: radial-gradient(circle at center, rgba(95, 48, 69, 0.9) 0%, rgba(46, 23, 33, 0.9) 100%);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 200, 87, 0.15);
+}
+
+.drink-img-container img {
+    max-height: 85%;
+    max-width: 85%;
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.drink-card:hover .drink-img-container img {
+    transform: scale(1.1) rotate(2deg);
+}
+
+.drink-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.drink-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.drink-price {
+    font-weight: 800;
+    color: #FFC857;
+    font-size: 1.25rem;
+}
+
+.drink-desc {
+    color: var(--clr-cream-muted);
+    font-size: 0.92rem;
+    margin-bottom: 1.5rem;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.drink-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+}
+
+.drink-actions .btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Footer: Deep Berry with Gold & Mint accents */
+.footer {
+    background: linear-gradient(180deg, #301723 0%, #200E17 100%);
+    color: var(--clr-cream);
+    padding: 5rem 0 2.5rem;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 200, 87, 0.15);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    margin-bottom: 3.5rem;
+}
+
+.footer .logo {
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.footer-brand p {
+    color: var(--clr-cream-muted);
+    max-width: 320px;
+    line-height: 1.7;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.footer-group h4 {
+    color: #FFC857;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.footer-group ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-group a {
+    color: var(--clr-cream-soft);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.footer-group a:hover {
+    color: #FF6B81;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 247, 237, 0.1);
+    padding-top: 2rem;
+    text-align: center;
+    color: var(--clr-cream-muted);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .hero-content p {
+        margin: 0 auto 2.5rem;
+    }
+    
+    .hero-actions {
+        justify-content: center;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .mobile-nav-toggle {
+        display: flex;
+    }
+    
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.75rem;
+    }
+}

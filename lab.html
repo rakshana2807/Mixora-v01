@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIXORA | Boba Personality Lab</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/customizer.css">
+    <link rel="stylesheet" href="css/lab.css?v=3">
+</head>
+<body class="studio-page lab-page">
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">MIXORA</a>
+            
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="customizer.html">Create Your Drink</a></li>
+                    <li><a href="lab.html" class="active">Personality Lab</a></li>
+                    <li><a href="orders.html">My Orders</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="profile.html" class="icon-link profile-link" aria-label="Profile">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </a>
+                <a href="cart.html" class="icon-link cart-link" aria-label="Cart">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    
+    <main class="lab-container">
+        <!-- View 1: Quiz -->
+        <section id="lab-step-quiz" class="lab-view active">
+            <div class="lab-header">
+                <span class="lab-tag">BOBA PERSONALITY LAB</span>
+                <h1>What's your boba vibe today?</h1>
+                <p>Select the personality that matches your current mood to discover your perfect signature drink.</p>
+            </div>
+            
+            <div class="personality-grid">
+                <div class="personality-card" data-id="Softie">
+                    <span class="p-selection-indicator">&#10003;</span>
+                    <div class="p-icon">🌸</div>
+                    <h3>The Softie</h3>
+                    <p>Creamy, sweet, comforting flavours.</p>
+                </div>
+                <div class="personality-card" data-id="Main Character">
+                    <span class="p-selection-indicator">&#10003;</span>
+                    <div class="p-icon">✨</div>
+                    <h3>The Main Character</h3>
+                    <p>Bold, rich, statement-making flavours.</p>
+                </div>
+                <div class="personality-card" data-id="Fruity Bestie">
+                    <span class="p-selection-indicator">&#10003;</span>
+                    <div class="p-icon">🍓</div>
+                    <h3>The Fruity Bestie</h3>
+                    <p>Fruity, refreshing, vibrant combinations.</p>
+                </div>
+                <div class="personality-card" data-id="Chill Soul">
+                    <span class="p-selection-indicator">&#10003;</span>
+                    <div class="p-icon">🌿</div>
+                    <h3>The Chill Soul</h3>
+                    <p>Light, refreshing tea-based drinks.</p>
+                </div>
+                <div class="personality-card" data-id="Chaos Creator">
+                    <span class="p-selection-indicator">&#10003;</span>
+                    <div class="p-icon">🔥</div>
+                    <h3>The Chaos Creator</h3>
+                    <p>Unexpected but thoughtfully paired flavour combinations.</p>
+                </div>
+            </div>
+            
+            <div class="lab-actions lab-quiz-actions">
+                <button id="btn-quiz-back" class="btn btn-outline btn-back" type="button">Back</button>
+                <button id="btn-quiz-continue" class="btn btn-lab-primary" disabled>Continue to My Boba</button>
+            </div>
+
+            <p id="quiz-validation-message" class="quiz-validation-message" aria-live="polite"></p>
+            
+            <!-- AI Taste Matcher Section (Replaces Boba Challenge / Mystery Monday) -->
+            <section class="ai-taste-matcher-banner" id="ai-taste-matcher-hero">
+                <div class="ai-matcher-split">
+                    <div class="ai-matcher-content">
+                        <h3 class="matcher-subtitle">Boba Personality Lab</h3>
+                        <h2 class="matcher-title">AI Taste Matcher</h2>
+                        <p class="matcher-desc">Take our interactive mood assessment to decode your flavor profile, reveal your signature boba recipe, and generate your custom collectible drink card.</p>
+                        <button class="btn btn-lab-primary" id="btn-take-quiz" onclick="window.startPersonalityQuiz && window.startPersonalityQuiz()" style="font-size: 1.1rem; padding: 1rem 2.2rem; cursor: pointer;">Take the Personality Quiz</button>
+                    </div>
+                    <div class="ai-matcher-graphic">
+                        <div class="matcher-visual-orb">
+                            <span class="matcher-orb-core">✨🧋</span>
+                            <span style="font-size: 0.8rem; font-weight: 800; color: #FFC857; margin-top: 0.5rem; letter-spacing: 0.05em;">SMART MATCH</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- View 1.5: Multi-Step Mood Assessment Quiz (Exactly 3 Questions) -->
+        <section id="lab-step-assessment" class="lab-view">
+            <div class="assessment-container">
+                <div class="quiz-progress-bar-wrap">
+                    <div class="quiz-progress-meta">
+                        <span id="quiz-step-title">QUESTION 1 OF 3</span>
+                        <span id="quiz-progress-pct">33%</span>
+                    </div>
+                    <div class="quiz-progress-track">
+                        <div class="quiz-progress-fill" id="quiz-progress-fill" style="width: 33.33%;"></div>
+                    </div>
+                </div>
+
+                <!-- Q1: Current Energy State -->
+                <div class="question-step active" data-step="1">
+                    <h2>What's your current energy state?</h2>
+                    <p class="step-hint">Select the energy state that best resonates with your vibe right now.</p>
+                    <div class="quiz-options-grid quiz-grid-2col">
+                        <div class="quiz-option-card" data-key="energy" data-value="radiant_electric" tabindex="0" role="button" aria-label="Radiant & Electric: Energetic, bold, and adventurous">
+                            <div class="quiz-option-title">
+                                <span>⚡ Radiant & Electric</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Energetic, bold, and adventurous.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="energy" data-value="velvety_comforting" tabindex="0" role="button" aria-label="Velvety & Comforting: Cozy, creamy, and relaxed">
+                            <div class="quiz-option-title">
+                                <span>🌸 Velvety & Comforting</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Cozy, creamy, and relaxed.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="energy" data-value="playful_sweet" tabindex="0" role="button" aria-label="Playful & Sweet: Cheerful, fruity, and sweet">
+                            <div class="quiz-option-title">
+                                <span>🍓 Playful & Sweet</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Cheerful, fruity, and sweet.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="energy" data-value="fresh_harmonious" tabindex="0" role="button" aria-label="Fresh & Harmonious: Calm, refreshing, and balanced">
+                            <div class="quiz-option-title">
+                                <span>🌿 Fresh & Harmonious</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Calm, refreshing, and balanced.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2: Flavour Personality -->
+                <div class="question-step" data-step="2">
+                    <h2>Which flavour profile speaks to you?</h2>
+                    <p class="step-hint">Choose your taste focus for today's handcrafted beverage.</p>
+                    <div class="quiz-options-grid quiz-grid-2col">
+                        <div class="quiz-option-card" data-key="flavor" data-value="creamy_milky" tabindex="0" role="button" aria-label="Creamy & Milky: Milk tea, taro, vanilla, and creamy flavours">
+                            <div class="quiz-option-title">
+                                <span>🥛 Creamy & Milky</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Milk tea, taro, vanilla, and creamy flavours.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="flavor" data-value="fruity_tropical" tabindex="0" role="button" aria-label="Fruity & Tropical: Mango, strawberry, peach, passion fruit, and other fruit flavours">
+                            <div class="quiz-option-title">
+                                <span>🥭 Fruity & Tropical</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Mango, strawberry, peach, passion fruit, and other fruit flavours.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="flavor" data-value="bold_roasted" tabindex="0" role="button" aria-label="Bold & Roasted: Assam tea, brown sugar, matcha, coffee, and richer flavours">
+                            <div class="quiz-option-title">
+                                <span>☕ Bold & Roasted</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Assam tea, brown sugar, matcha, coffee, and richer flavours.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="flavor" data-value="light_refreshing" tabindex="0" role="button" aria-label="Light & Refreshing: Jasmine tea, green tea, citrus, and refreshing fruit tea">
+                            <div class="quiz-option-title">
+                                <span>🍃 Light & Refreshing</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Jasmine tea, green tea, citrus, and refreshing fruit tea.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3: Your Perfect Drink Texture -->
+                <div class="question-step" data-step="3">
+                    <h2>What makes your perfect sip?</h2>
+                    <p class="step-hint">Fine-tune the mouthfeel and topping layer of your creation.</p>
+                    <div class="quiz-options-grid quiz-grid-2col">
+                        <div class="quiz-option-card" data-key="texture" data-value="chewy_boba" tabindex="0" role="button" aria-label="Chewy Boba: Classic tapioca pearls and satisfying texture">
+                            <div class="quiz-option-title">
+                                <span>⚫ Chewy Boba</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Classic tapioca pearls and satisfying texture.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="texture" data-value="popping_boba" tabindex="0" role="button" aria-label="Juicy Popping Boba: Fruity pearls that burst with flavour">
+                            <div class="quiz-option-title">
+                                <span>💥 Juicy Popping Boba</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Fruity pearls that burst with flavour.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="texture" data-value="creamy_smooth" tabindex="0" role="button" aria-label="Creamy & Smooth: Silky milk, foam, and creamy textures">
+                            <div class="quiz-option-title">
+                                <span>☁️ Creamy & Smooth</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Silky milk, foam, and creamy textures.</div>
+                        </div>
+                        <div class="quiz-option-card" data-key="texture" data-value="light_clean" tabindex="0" role="button" aria-label="Light & Clean: Refreshing drinks with no boba or light toppings">
+                            <div class="quiz-option-title">
+                                <span>✨ Light & Clean</span>
+                                <span class="quiz-check-pill">&#10003;</span>
+                            </div>
+                            <div class="quiz-option-desc">Refreshing drinks with no boba or light toppings.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-nav-row">
+                    <button class="btn btn-outline" id="btn-quiz-step-back">Back</button>
+                    <button class="btn btn-lab-primary" id="btn-quiz-step-next" disabled>Continue</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: Personalized Result Screen (Exactly ONE Drink) -->
+        <section id="lab-step-recommendation" class="lab-view">
+            <div class="signature-result-container">
+                <div class="signature-header">
+                    <span class="lab-tag">AI TASTE MATCHER</span>
+                    <h1 class="signature-main-title">YOUR SIGNATURE BOBA</h1>
+                    <p class="signature-subtitle">"Your vibe has been decoded."</p>
+                </div>
+                
+                <div class="signature-drink-card">
+                    <div class="signature-card-left">
+                        <div class="signature-visual-wrapper">
+                            <div id="rec-svg-clone"></div>
+                        </div>
+                        <div class="signature-profile-badge" id="rec-energy-badge">⚡ Radiant & Electric Profile</div>
+                    </div>
+                    
+                    <div class="signature-card-right">
+                        <div class="signature-meta-top">
+                            <span class="signature-category-pill" id="rec-category-badge">Signature Boba</span>
+                            <span class="match-score-badge" id="rec-match-score">98% MATCH</span>
+                        </div>
+                        
+                        <h2 class="signature-drink-name" id="rec-drink-name">Brown Sugar Boba Milk Tea</h2>
+                        <p class="signature-explanation" id="rec-explanation">
+                            Your energetic mood and love of rich roasted flavours pair perfectly with this statement-making brown sugar drink and chewy tapioca pearls.
+                        </p>
+                        
+                        <div class="signature-specs-grid">
+                            <div class="spec-tile">
+                                <span class="spec-label">Base Drink</span>
+                                <span class="spec-val" id="rec-base">Brown Sugar Boba Milk Tea</span>
+                            </div>
+                            <div class="spec-tile">
+                                <span class="spec-label">Recommended Boba / Topping</span>
+                                <span class="spec-val" id="rec-boba">Brown Sugar Tapioca Pearls</span>
+                            </div>
+                            <div class="spec-tile">
+                                <span class="spec-label">Sweetness</span>
+                                <span class="spec-val" id="rec-sweetness">75%</span>
+                            </div>
+                            <div class="spec-tile">
+                                <span class="spec-label">Ice Level</span>
+                                <span class="spec-val" id="rec-ice">Less Ice</span>
+                            </div>
+                            <div class="spec-tile">
+                                <span class="spec-label">Recommended Size</span>
+                                <span class="spec-val" id="rec-size">Medium</span>
+                            </div>
+                            <div class="spec-tile price-tile">
+                                <span class="spec-label">Current Calculated Price</span>
+                                <span class="spec-val price-highlight" id="rec-price-val">₹144.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="signature-actions">
+                            <button id="btn-rec-customize" class="btn btn-lab-primary">Customize My Drink</button>
+                            <button id="btn-rec-save" class="btn btn-outline">Save My Creation</button>
+                            <button id="btn-rec-add-cart" class="btn btn-primary" style="background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%); color: #3B1F2B;">Add to Cart</button>
+                            <button id="btn-rec-retake" class="btn btn-outline" style="border-color: rgba(255, 200, 87, 0.4); color: #FFC857;">Retake Quiz</button>
+                        </div>
+                        <div id="rec-feedback-toast" class="rec-feedback-toast" aria-live="polite"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 3: Customizer (Wraps the original studio layout) -->
+        <section id="lab-step-customizer" class="lab-view">
+            <!-- Inject original customizer main here -->
+<main class="studio-layout">
+        <!-- Visualizer Area -->
+        <section class="visualizer-section">
+            <div class="visualizer-header">
+                <h1 id="recipe-title">Custom Drink</h1>
+                <div class="price-display">
+                    <span id="total-price">₹0.00</span>
+                </div>
+            </div>
+            
+            <div class="drink-preview-container">
+                <!-- Inline SVG Drink Illustration -->
+                <div id="drink-svg-wrapper">
+                    <!-- SVG will be injected/manipulated by JS -->
+                </div>
+                
+                <div class="studio-actions">
+                    <button class="btn btn-outline" id="btn-lab-back">&larr; Back to Match</button>
+                    <button id="btn-surprise" style="display:none;"></button>
+                    <button class="btn btn-lab-secondary" id="btn-lab-card">Generate Recipe Card</button>
+                        <button class="btn btn-outline" id="btn-save-recipe" style="display:none;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        Save
+                    </button>
+                    <button id="btn-add-cart" class="btn btn-lab-primary">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls Area -->
+        <section class="controls-section">
+            <div class="controls-container">
+                
+                <div class="control-group">
+                    <h3>1. Choose Base</h3>
+                    <div class="base-selector" id="base-options">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>2. Select Size</h3>
+                    <div class="size-selector">
+                        <label class="radio-card">
+                            <input type="radio" name="cup-size" value="Small">
+                            <div class="card-content">
+                                <span class="size-icon small"></span>
+                                <span>Small</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="cup-size" value="Medium" checked>
+                            <div class="card-content">
+                                <span class="size-icon medium"></span>
+                                <span>Medium</span>
+                                <span class="price-tag">+₹15</span>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="cup-size" value="Large">
+                            <div class="card-content">
+                                <span class="size-icon large"></span>
+                                <span>Large</span>
+                                <span class="price-tag">+₹30</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3>3. Adjustments</h3>
+                    <div class="adjustment-sliders">
+                        <div class="slider-group">
+                            <label>Sugar Level (<span id="sugar-val">100%</span>)</label>
+                            <input type="range" id="sugar-slider" min="0" max="100" step="25" value="100">
+                            <div class="slider-labels">
+                                <span>0%</span>
+                                <span>50%</span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+                        <div class="slider-group">
+                            <label>Ice Level</label>
+                            <div class="pill-selector" id="ice-options">
+                                <button class="pill-btn" data-val="No Ice">No Ice</button>
+                                <button class="pill-btn" data-val="Less Ice">Less Ice</button>
+                                <button class="pill-btn active" data-val="Regular Ice">Regular</button>
+                                <button class="pill-btn" data-val="Extra Ice">Extra</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>4. Add-ons</h3>
+                    <div class="addons-grid expanded">
+                        <div class="addon-category">
+                            <h4>Boba Bar</h4>
+                            <div id="bobas-list" class="checkbox-list"></div>
+                        </div>
+                        <div class="addon-category">
+                            <h4>Jelly & Chewy</h4>
+                            <div id="jellies-list" class="checkbox-list"></div>
+                        </div>
+                        <div class="addon-category">
+                            <h4>Milk & Foam</h4>
+                            <div id="milks-foams-list" class="checkbox-list"></div>
+                        </div>
+                        <div class="addon-category">
+                            <h4>Syrups & Sauces</h4>
+                            <div id="syrups-list" class="checkbox-list"></div>
+                        </div>
+                        <div class="addon-category" style="grid-column: 1 / -1;">
+                            <h4>Fruit & Garnish</h4>
+                            <div id="garnishes-list" class="checkbox-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="nutrition-summary">
+                    <h4>Estimated Nutrition</h4>
+                    <p id="nutrition-details">Loading...</p>
+                    <small class="text-muted">Values are estimates. Please confirm allergens before ordering.</small>
+                </div>
+            </div>
+        </section>
+    </main>
+        </section>
+    </main>
+
+    <!-- Recipe Modal -->
+    <div class="modal" id="recipe-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 id="modal-recipe-title">Recipe</h2>
+            <div id="modal-recipe-details"></div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="modal-add-cart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Generated Recipe Card Modal -->
+    <div class="modal" id="recipe-card-modal">
+        <div class="modal-content lab-recipe-modal">
+            <button class="modal-close">&times;</button>
+            <div class="recipe-card-export" id="exportable-recipe-card">
+                <div class="card-header-lab">BOBA PERSONALITY LAB</div>
+                <h2 id="card-title">STRAWBERRY CHAOS</h2>
+                <div class="card-personality">Personality: <span id="card-personality-val">THE CHAOS CREATOR</span></div>
+                
+                <div class="card-body-lab">
+                    <div class="card-visual" id="card-svg-container"></div>
+                    <div class="card-specs">
+                        <div><strong>Base:</strong> <span id="card-base"></span></div>
+                        <div><strong>Boba & Toppings:</strong> <span id="card-toppings"></span></div>
+                        <div><strong>Sweetness:</strong> <span id="card-sweetness"></span></div>
+                        <div><strong>Ice:</strong> <span id="card-ice"></span></div>
+                        <div><strong>Size:</strong> <span id="card-size"></span></div>
+                    </div>
+                </div>
+                
+                <div class="card-footer-lab">
+                    <div class="tagline">YOUR DRINK. YOUR RULES. YOUR VIBE.</div>
+                    <div class="recipe-code">Code: <span id="card-recipe-code"></span></div>
+                    <div class="price"><span id="card-price"></span></div>
+                </div>
+            </div>
+            
+            <div class="modal-actions lab-modal-actions">
+                <button class="btn btn-outline" id="btn-download-card">Download PNG</button>
+                <button class="btn btn-outline" id="btn-copy-link">Copy Link</button>
+                <button class="btn btn-outline" id="btn-lab-save-recipe">Save Recipe</button>
+                <button class="btn btn-lab-primary" id="btn-order-creation">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/pricing.js"></script>
+    <script src="js/menu-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/visualizer.js"></script>
+    <script src="js/lab.js?v=3"></script>
+</body>
+</html>

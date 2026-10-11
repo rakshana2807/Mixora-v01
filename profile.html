@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIXORA | My Profile</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        @keyframes profileFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes avatarPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 129, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 0 14px rgba(255, 107, 129, 0);
+            }
+        }
+
+        /* Profile Page Container: Wide, Expansive Desktop Layout */
+        .profile-page-wrapper {
+            width: 100%;
+            max-width: 1560px;
+            margin: 0 auto;
+            padding: 2.25rem 2rem 4rem;
+            box-sizing: border-box;
+            flex: 1;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 290px minmax(0, 1fr);
+            gap: 2rem;
+            align-items: start;
+            animation: profileFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+            width: 100%;
+        }
+        
+        /* Left Sticky Sidebar */
+        .profile-sidebar {
+            background: rgba(68, 35, 49, 0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: var(--radius-lg);
+            padding: 2.25rem 1.6rem;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 200, 87, 0.25);
+            text-align: center;
+            color: #FFF7ED;
+            position: sticky;
+            top: 96px;
+            z-index: 10;
+        }
+        
+        .avatar-lg {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+            color: #3B1F2B;
+            font-size: 2.25rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            box-shadow: 0 8px 24px rgba(255, 107, 129, 0.45);
+            animation: avatarPulse 3.5s infinite;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+        }
+
+        .avatar-lg:hover {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        .sidebar-user-name {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #FFF7ED;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+
+        .sidebar-user-email {
+            font-size: 0.85rem;
+            color: rgba(255, 247, 237, 0.7);
+            word-break: break-all;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 107, 129, 0.18);
+            color: #FFC857;
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 200, 87, 0.35);
+        }
+
+        .demo-badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #A8D5BA;
+            box-shadow: 0 0 8px #A8D5BA;
+        }
+
+        .profile-quick-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+            border-top: 1px solid rgba(255, 200, 87, 0.15);
+            border-bottom: 1px solid rgba(255, 200, 87, 0.15);
+        }
+
+        .quick-stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .quick-stat-val {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #FFC857;
+        }
+
+        .quick-stat-lbl {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 247, 237, 0.65);
+        }
+        
+        .profile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: left;
+        }
+        
+        .profile-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.1rem;
+            border-radius: var(--radius-md);
+            color: rgba(255, 247, 237, 0.8);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid transparent;
+        }
+        
+        .profile-nav a:hover, .profile-nav a.active {
+            background: linear-gradient(135deg, rgba(255, 107, 129, 0.25) 0%, rgba(255, 200, 87, 0.18) 100%);
+            color: #FFC857;
+            font-weight: 700;
+            border-color: rgba(255, 200, 87, 0.35);
+            transform: translateX(4px);
+        }
+
+        .profile-nav-icon {
+            font-size: 1.1rem;
+        }
+        
+        /* Right Flexible Content Area */
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+            width: 100%;
+            min-width: 0;
+        }
+
+        /* Top Prominent Profile Summary Banner */
+        .profile-summary-card {
+            background: linear-gradient(135deg, rgba(77, 40, 55, 0.95) 0%, rgba(59, 31, 43, 0.95) 100%);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius-lg);
+            padding: 1.85rem 2.25rem;
+            border: 1.5px solid rgba(255, 200, 87, 0.3);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .summary-main {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            min-width: 0;
+        }
+
+        .summary-avatar-badge {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B81 0%, #FFC857 100%);
+            color: #3B1F2B;
+            font-size: 1.85rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 6px 20px rgba(255, 107, 129, 0.4);
+        }
+
+        .summary-details {
+            min-width: 0;
+        }
+
+        .summary-name {
+            font-size: 1.85rem;
+            font-weight: 800;
+            color: #FFF7ED;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+
+        .summary-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: rgba(255, 247, 237, 0.78);
+        }
+
+        .summary-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .summary-status-pill {
+            background: rgba(168, 213, 186, 0.2);
+            color: #A8D5BA;
+            border: 1px solid rgba(168, 213, 186, 0.4);
+            padding: 0.2rem 0.65rem;
+            border-radius: var(--radius-full);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .summary-actions {
+            display: flex;
+            gap: 0.85rem;
+            align-items: center;
+        }
+        
+        /* 2-Column Responsive Information Grid */
+        .profile-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.75rem;
+            width: 100%;
+        }
+
+        .profile-section {
+            background: rgba(68, 35, 49, 0.88);
+            backdrop-filter: blur(14px);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255, 200, 87, 0.22);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #FFF7ED;
+            min-width: 0;
+            width: 100%;
+        }
+        
+        .profile-section:hover {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(255, 200, 87, 0.45);
+        }
+
+        .profile-section-full {
+            width: 100%;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.35rem;
+            border-bottom: 1px solid rgba(255, 200, 87, 0.18);
+            padding-bottom: 0.9rem;
+        }
+
+        .section-header h3 {
+            color: #FFC857;
+            font-size: 1.35rem;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem 1.5rem;
+        }
+        
+        .info-item {
+            background: rgba(43, 20, 31, 0.55);
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 200, 87, 0.12);
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 247, 237, 0.65);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        
+        .info-item div {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #FFF7ED;
+            word-break: break-word;
+        }
+
+        .info-item.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .edit-input {
+            width: 100%;
+            padding: 0.65rem 0.85rem;
+            border: 1.5px solid rgba(255, 200, 87, 0.35);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            background: rgba(33, 14, 23, 0.95);
+            color: #FFF7ED;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            border-color: #FFC857;
+            box-shadow: 0 0 14px rgba(255, 200, 87, 0.4);
+        }
+
+        /* Saved Recipes Responsive Grid */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+            width: 100%;
+        }
+        
+        .recipe-card {
+            border: 1.5px solid rgba(255, 200, 87, 0.22);
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            background: rgba(59, 31, 43, 0.9);
+            color: #FFF7ED;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.25rem;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-3px);
+            border-color: #FFC857;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .recipe-card-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.1rem;
+        }
+
+        .recipe-cup-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255, 107, 129, 0.25) 0%, rgba(255, 200, 87, 0.25) 100%);
+            border: 1px solid rgba(255, 200, 87, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .recipe-card-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .recipe-card-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #FFF7ED;
+            margin-bottom: 0.35rem;
+            line-height: 1.25;
+        }
+
+        .recipe-card-specs {
+            font-size: 0.88rem;
+            color: rgba(255, 247, 237, 0.75);
+            line-height: 1.45;
+        }
+
+        .recipe-card-toppings {
+            display: inline-block;
+            margin-top: 0.35rem;
+            color: #FFC857;
+            font-weight: 600;
+            font-size: 0.84rem;
+        }
+
+        .recipe-card-actions {
+            display: flex;
+            gap: 0.65rem;
+            align-items: center;
+            justify-content: flex-end;
+            border-top: 1px solid rgba(255, 200, 87, 0.14);
+            padding-top: 0.85rem;
+        }
+
+        /* Saved Addresses Responsive Grid */
+        .addresses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+            width: 100%;
+        }
+        
+        .address-card {
+            border: 1.5px solid rgba(255, 200, 87, 0.22);
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            background: rgba(59, 31, 43, 0.9);
+            color: #FFF7ED;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .address-card:hover {
+            transform: translateY(-3px);
+            border-color: #FFC857;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .address-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255, 200, 87, 0.2);
+            color: #FFC857;
+            border: 1px solid rgba(255, 200, 87, 0.35);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            width: fit-content;
+        }
+
+        .address-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #FFF7ED;
+            font-weight: 500;
+        }
+
+        .address-instructions {
+            font-size: 0.85rem;
+            color: rgba(255, 247, 237, 0.68);
+            border-top: 1px dashed rgba(255, 200, 87, 0.15);
+            padding-top: 0.65rem;
+        }
+
+        /* Meaningful Empty States */
+        .profile-empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(43, 20, 31, 0.55);
+            border-radius: var(--radius-md);
+            border: 1.5px dashed rgba(255, 200, 87, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #FFF7ED;
+        }
+
+        .empty-desc {
+            font-size: 0.95rem;
+            color: rgba(255, 247, 237, 0.7);
+            max-width: 440px;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1120px) {
+            .profile-layout {
+                grid-template-columns: 260px minmax(0, 1fr);
+                gap: 1.5rem;
+            }
+            .profile-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 860px) {
+            .profile-page-wrapper {
+                padding: 1.5rem 1rem 3rem;
+            }
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+            .profile-sidebar {
+                position: static;
+                padding: 1.75rem 1.25rem;
+            }
+            .profile-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .profile-nav a {
+                padding: 0.6rem 0.9rem;
+                font-size: 0.85rem;
+            }
+            .profile-summary-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+            }
+            .summary-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .recipes-grid, .addresses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .summary-main {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .summary-name {
+                font-size: 1.5rem;
+            }
+            .profile-section {
+                padding: 1.35rem 1.15rem;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">MIXORA</a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="customizer.html">Create Your Drink</a></li>
+                    <li><a href="lab.html">Personality Lab</a></li>
+                    <li><a href="orders.html">My Orders</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="profile.html" class="icon-link profile-link active" aria-label="Profile">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </a>
+                <a href="cart.html" class="icon-link cart-link" aria-label="Cart">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span class="cart-count" style="display:none;">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-page-wrapper">
+        <main class="profile-layout">
+            <!-- Left Profile Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="avatar-lg" id="avatar-initials"></div>
+                <h2 class="sidebar-user-name" id="display-name"></h2>
+                <p class="sidebar-user-email" id="display-email"></p>
+                <div class="demo-badge">ACTIVE DEMO ACCOUNT</div>
+
+                <div class="profile-quick-stats">
+                    <div class="quick-stat-item">
+                        <span class="quick-stat-val" id="stat-recipes-count">0</span>
+                        <span class="quick-stat-lbl">Saved Recipes</span>
+                    </div>
+                    <div class="quick-stat-item">
+                        <span class="quick-stat-val" id="stat-addresses-count">0</span>
+                        <span class="quick-stat-lbl">Addresses</span>
+                    </div>
+                </div>
+                
+                <nav class="profile-nav" aria-label="Profile navigation">
+                    <a href="#overview" class="active"><span class="profile-nav-icon">👤</span> Basic Info</a>
+                    <a href="#preferences"><span class="profile-nav-icon">✨</span> Drink Preferences</a>
+                    <a href="#recipes"><span class="profile-nav-icon">🧋</span> Saved Recipes</a>
+                    <a href="#addresses"><span class="profile-nav-icon">📍</span> Address Book</a>
+                    <a href="orders.html"><span class="profile-nav-icon">📦</span> My Orders</a>
+                </nav>
+            </aside>
+            
+            <!-- Flexible Right Content Area -->
+            <div class="profile-content">
+                <!-- Prominent Profile Summary Banner -->
+                <section class="profile-summary-card">
+                    <div class="summary-main">
+                        <div class="summary-avatar-badge" id="summary-avatar-initials"></div>
+                        <div class="summary-details">
+                            <h1 class="summary-name" id="summary-user-name"></h1>
+                            <div class="summary-meta-row">
+                                <span class="summary-meta-item">📧 <span id="summary-user-email"></span></span>
+                                <span class="summary-meta-item">🛡️ <span id="summary-account-type"></span></span>
+                                <span class="summary-meta-item">📅 Member since <strong id="summary-member-since"></strong></span>
+                                <span class="summary-status-pill">Active Member</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-actions">
+                        <button class="btn btn-primary" id="btn-edit-profile">Edit Profile</button>
+                    </div>
+                </section>
+
+                <!-- Row 1: Basic Information & Drink Preferences (Side-by-Side Responsive Grid) -->
+                <div class="profile-cards-grid">
+                    <section id="overview" class="profile-section">
+                        <div class="section-header">
+                            <h3><span>👤</span> Basic Information</h3>
+                        </div>
+                        <div class="info-grid" id="profile-info-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </section>
+                    
+                    <section id="preferences" class="profile-section">
+                        <div class="section-header">
+                            <h3><span>🧋</span> Drink Preferences</h3>
+                        </div>
+                        <div class="info-grid" id="preferences-info-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Row 2: Saved Recipes (Spanning Full Content Width) -->
+                <section id="recipes" class="profile-section profile-section-full">
+                    <div class="section-header">
+                        <h3><span>✨</span> Saved Recipes</h3>
+                        <a href="customizer.html" class="btn btn-outline" style="font-size: 0.88rem; padding: 0.45rem 1.15rem;">+ Create New</a>
+                    </div>
+                    <div id="recipes-list" class="recipes-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+                
+                <!-- Row 3: Saved Addresses (Spanning Full Content Width) -->
+                <section id="addresses" class="profile-section profile-section-full">
+                    <div class="section-header">
+                        <h3><span>📍</span> Saved Addresses</h3>
+                    </div>
+                    <div id="addresses-list" class="addresses-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/storage.js?v=5"></script>
+    <script src="js/pricing.js"></script>
+    <script src="js/menu-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/profile.js?v=5"></script>
+</body>
+</html>
