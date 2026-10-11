@@ -361,5 +361,23 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.profile-dropdown-menu').forEach(d => d.classList.remove('active'));
         }
     });
+
+    // Universal Mobile Nav Toggle Support
+    const navToggle = document.querySelector('.mobile-nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-container')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    }
 });
+
 

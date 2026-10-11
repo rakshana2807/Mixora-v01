@@ -830,19 +830,106 @@ body:not(.admin-body) .logo {
 }
 
 @media (max-width: 768px) {
-    .nav-links {
-        display: none;
+    .navbar {
+        padding: 0.85rem 0;
     }
-    
+
+    .nav-container {
+        padding: 0 1rem;
+        position: relative;
+    }
+
+    .main-nav {
+        order: 2;
+    }
+
+    .nav-actions {
+        order: 3;
+        gap: 0.65rem;
+    }
+
     .mobile-nav-toggle {
         display: flex;
+        order: 2;
+        margin-left: auto;
+        margin-right: 0.5rem;
+        z-index: 101;
     }
-    
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(59, 31, 43, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1.5px solid rgba(255, 200, 87, 0.25);
+        gap: 1rem;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+        z-index: 99;
+    }
+
+    .nav-links.active,
+    .nav-links[style*="display: flex"] {
+        display: flex !important;
+    }
+
+    .nav-links a {
+        font-size: 1.05rem;
+        font-weight: 600;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid rgba(255, 200, 87, 0.1);
+        display: block;
+        width: 100%;
+    }
+
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+
+    .icon-link {
+        width: 38px;
+        height: 38px;
+    }
+
     .steps-grid {
         grid-template-columns: 1fr;
     }
     
+    .hero {
+        padding: 3.5rem 0 3rem;
+    }
+
     .hero-content h1 {
         font-size: 2.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body:not(.admin-body) .logo {
+        font-size: 1.45rem;
+        letter-spacing: 1.5px;
+    }
+
+    .nav-actions {
+        gap: 0.5rem;
+    }
+
+    .icon-link {
+        width: 36px;
+        height: 36px;
+    }
+
+    .icon-link svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .user-initials-badge {
+        font-size: 0.78rem;
     }
 }
