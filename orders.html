@@ -94,6 +94,87 @@
             color: var(--clr-primary);
         }
 
+        .order-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-view-order {
+            background: rgba(255, 247, 237, 0.08);
+            border: 1.5px solid rgba(255, 200, 87, 0.35);
+            color: #FFC857;
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-view-order:hover {
+            background: rgba(255, 200, 87, 0.2);
+            border-color: #FFC857;
+            transform: translateY(-2px);
+        }
+
+        /* Order Details Modal */
+        .order-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(29, 14, 21, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .order-modal.active {
+            display: flex;
+        }
+
+        .order-modal-content {
+            background: rgba(68, 35, 49, 0.98);
+            border: 1.5px solid rgba(255, 200, 87, 0.4);
+            border-radius: var(--radius-lg);
+            max-width: 600px;
+            width: 100%;
+            padding: 2.25rem;
+            position: relative;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+            color: #FFF7ED;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: orderFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(255, 247, 237, 0.1);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF7ED;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: #FF6B81;
+            color: #3B1F2B;
+            transform: rotate(90deg) scale(1.1);
+        }
+
         @media (max-width: 600px) {
             .order-card {
                 padding: 1.5rem 1.25rem;
@@ -108,8 +189,16 @@
                 gap: 0.35rem;
             }
             .order-footer {
-                flex-direction: row;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .order-actions-bar {
+                width: 100%;
                 justify-content: space-between;
+            }
+            .order-modal-content {
+                padding: 1.5rem 1.15rem;
             }
         }
     </style>
@@ -147,88 +236,283 @@
     </header>
 
     <main class="container section-padding">
-        <h1 class="store-header">Order History</h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <h1 class="store-header" style="margin-bottom: 0;">Order History</h1>
+            <button id="btn-refresh-orders" class="btn btn-outline" style="padding: 0.45rem 1.15rem; font-size: 0.88rem;">↻ Refresh Status</button>
+        </div>
         
         <div class="orders-list" id="orders-container">
             <!-- Populated by JS -->
         </div>
     </main>
 
+    <!-- Order Details Modal -->
+    <div class="order-modal" id="order-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="order-modal-content">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">&times;</button>
+            <div id="order-modal-body">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </div>
+
     <script src="js/storage.js"></script>
     <script src="js/pricing.js"></script>
     <script src="js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const allOrders = window.Storage.get(window.Storage.KEYS.ORDERS, []);
-            const activeUser = window.Storage.UserProfile ? window.Storage.UserProfile.get() : window.Storage.get(window.Storage.KEYS.USER);
             const container = document.getElementById('orders-container');
-            
-            // Filter orders belonging to this customer account
-            const userOrders = allOrders.filter(o => {
-                if (!activeUser) return false;
-                if (o.customer && o.customer.email) {
-                    return o.customer.email.toLowerCase() === activeUser.email.toLowerCase();
+            const modal = document.getElementById('order-modal');
+            const modalBody = document.getElementById('order-modal-body');
+            const closeBtn = document.getElementById('modal-close-btn');
+            const refreshBtn = document.getElementById('btn-refresh-orders');
+
+            function getActiveUser() {
+                if (window.Storage.UserProfile) {
+                    return window.Storage.UserProfile.get();
                 }
-                return false;
-            });
-            
-            if (userOrders.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 3.5rem 2rem; background: rgba(68, 35, 49, 0.7); border-radius: var(--radius-lg); border: 1.5px dashed rgba(255, 200, 87, 0.3);">
-                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📦</div>
-                        <h3 style="color: #FFF7ED; margin-bottom: 0.5rem;">No orders yet.</h3>
-                        <p class="text-muted" style="margin-bottom: 1.5rem; max-width: 420px; margin-left: auto; margin-right: auto;">When you place orders for handcrafted boba creations, their live preparation status will appear here.</p>
-                        <a href="menu.html" class="btn btn-primary">Start Ordering</a>
-                    </div>
-                `;
-                return;
+                return window.Storage.get(window.Storage.KEYS.USER);
             }
-            
-            userOrders.forEach(order => {
-                const date = new Date(order.date).toLocaleString();
-                let itemsHtml = order.items.map(item => {
-                    const addonsArr = [];
-                    if(item.bobas) addonsArr.push(...item.bobas);
-                    if(item.jellies) addonsArr.push(...item.jellies);
-                    if(item.milks_foams) addonsArr.push(...item.milks_foams);
-                    if(item.syrups) addonsArr.push(...item.syrups);
-                    if(item.garnishes) addonsArr.push(...item.garnishes);
-                    const addonsStr = addonsArr.length ? `<br>+ ${addonsArr.join(', ')}` : '';
-                    return `
-                    <div class="order-item">
-                        <div>
-                            <strong>${item.quantity}x ${item.name}</strong> <span class="text-muted">(${item.size})</span>
-                            <div style="font-size: 0.85rem; color: var(--clr-text-muted); margin-left: 1.2rem;">
-                                ${item.sugar} Sugar, ${item.ice}
-                                ${addonsStr}
+
+            function loadCustomerOrders() {
+                try {
+                    const allOrders = window.Storage.get(window.Storage.KEYS.ORDERS, []);
+                    let activeUser = getActiveUser();
+
+                    // If user is not seeded yet, seed canonical demo user profile
+                    if (!activeUser) {
+                        activeUser = {
+                            id: 'cust_demo_01',
+                            name: 'Aanya Demo',
+                            email: 'demo.customer@mixora.example',
+                            type: 'Customer',
+                            status: 'Active Member'
+                        };
+                        if (window.Storage.UserProfile) {
+                            window.Storage.UserProfile.save(activeUser);
+                        } else {
+                            window.Storage.set(window.Storage.KEYS.USER, activeUser);
+                        }
+                    }
+
+                    const activeEmail = (activeUser && activeUser.email) ? activeUser.email.trim().toLowerCase() : '';
+                    const activeId = activeUser ? activeUser.id : '';
+
+                    // Match orders by customerId, customer.email, or customerId session fallback
+                    const userOrders = allOrders.filter(o => {
+                        if (o.customerId && activeId && o.customerId === activeId) {
+                            return true;
+                        }
+                        if (o.customer && o.customer.id && activeId && o.customer.id === activeId) {
+                            return true;
+                        }
+                        if (o.customer && o.customer.email && activeEmail) {
+                            return o.customer.email.trim().toLowerCase() === activeEmail;
+                        }
+                        // Non-demo placed order fallback if single active customer session
+                        if (!o.isDemo && o.customer && !o.customer.email && activeUser) {
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    // Sort newest orders first
+                    userOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                    if (userOrders.length === 0) {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 3.5rem 2rem; background: rgba(68, 35, 49, 0.7); border-radius: var(--radius-lg); border: 1.5px dashed rgba(255, 200, 87, 0.3);">
+                                <div style="font-size: 3rem; margin-bottom: 0.5rem;">📦</div>
+                                <h3 style="color: #FFF7ED; margin-bottom: 0.5rem;">No orders yet.</h3>
+                                <p class="text-muted" style="margin-bottom: 1.5rem; max-width: 420px; margin-left: auto; margin-right: auto;">When you place orders for handcrafted boba creations, their live preparation status will appear here.</p>
+                                <a href="menu.html" class="btn btn-primary">Start Ordering</a>
                             </div>
+                        `;
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    userOrders.forEach(order => {
+                        const orderDate = new Date(order.date);
+                        const dateFormatted = !isNaN(orderDate.getTime()) ? orderDate.toLocaleString() : 'Just now';
+                        
+                        let itemsHtml = (order.items || []).map(item => {
+                            const addonsArr = [];
+                            if (item.bobas) addonsArr.push(...item.bobas);
+                            if (item.jellies) addonsArr.push(...item.jellies);
+                            if (item.milks_foams) addonsArr.push(...item.milks_foams);
+                            if (item.syrups) addonsArr.push(...item.syrups);
+                            if (item.garnishes) addonsArr.push(...item.garnishes);
+                            const addonsStr = addonsArr.length ? `<br>+ ${addonsArr.join(', ')}` : '';
+                            const itemPriceFormatted = window.Pricing ? window.Pricing.formatPrice(item.unitPrice * (item.quantity || 1)) : `₹${(item.unitPrice * (item.quantity || 1)).toFixed(2)}`;
+
+                            return `
+                            <div class="order-item">
+                                <div>
+                                    <strong>${item.quantity || 1}x ${item.name}</strong> <span class="text-muted">(${item.size || 'Medium'})</span>
+                                    <div style="font-size: 0.85rem; color: var(--clr-text-muted); margin-left: 1.2rem;">
+                                        ${item.sugar || '100%'} Sugar, ${item.ice || 'Regular Ice'}
+                                        ${addonsStr}
+                                    </div>
+                                </div>
+                                <div style="font-weight: 700;">${itemPriceFormatted}</div>
+                            </div>
+                            `;
+                        }).join('');
+
+                        const totalFormatted = window.Pricing ? window.Pricing.formatPrice(order.totals?.total || 0) : `₹${(order.totals?.total || 0).toFixed(2)}`;
+                        const itemCount = (order.items || []).reduce((s, i) => s + (i.quantity || 1), 0);
+                        const fulfillmentType = order.fulfillment?.type || 'Pickup';
+
+                        const card = document.createElement('div');
+                        card.className = 'order-card';
+                        card.innerHTML = `
+                            <div class="order-header">
+                                <div>
+                                    <h3 style="margin-bottom: 0.25rem;">${order.orderId}</h3>
+                                    <span class="text-muted" style="font-size: 0.85rem;">${dateFormatted} • ${fulfillmentType}</span>
+                                </div>
+                                <div class="status-badge status-${order.status}">${order.status}</div>
+                            </div>
+                            <div class="order-item-list">
+                                ${itemsHtml}
+                            </div>
+                            <div class="order-footer">
+                                <div>
+                                    <span class="text-muted" style="font-size: 0.9rem;">Total Items: ${itemCount}</span>
+                                    <div class="order-total" style="margin-top: 0.25rem;">${totalFormatted}</div>
+                                </div>
+                                <div class="order-actions-bar">
+                                    <button class="btn-view-order" data-id="${order.orderId}">View Details & Receipt</button>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                    // Attach modal trigger listeners
+                    document.querySelectorAll('.btn-view-order').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const orderId = e.target.getAttribute('data-id');
+                            const order = allOrders.find(o => o.orderId === orderId);
+                            if (order) {
+                                openOrderModal(order);
+                            }
+                        });
+                    });
+
+                } catch (err) {
+                    console.error('Failed to load orders:', err);
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 3.5rem 2rem; background: rgba(68, 35, 49, 0.7); border-radius: var(--radius-lg); border: 1.5px dashed #FF6B81;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+                            <h3 style="color: #FF6B81; margin-bottom: 0.5rem;">We couldn't load your orders.</h3>
+                            <p class="text-muted" style="margin-bottom: 1.5rem;">Please check your connection and try again.</p>
+                            <button class="btn btn-primary" id="btn-retry-orders">Retry</button>
                         </div>
-                        <div>${window.Pricing.formatPrice(item.unitPrice * item.quantity)}</div>
+                    `;
+                    document.getElementById('btn-retry-orders')?.addEventListener('click', loadCustomerOrders);
+                }
+            }
+
+            function openOrderModal(order) {
+                const orderDate = new Date(order.date);
+                const dateFormatted = !isNaN(orderDate.getTime()) ? orderDate.toLocaleString() : 'Just now';
+                const totalFormatted = window.Pricing ? window.Pricing.formatPrice(order.totals?.total || 0) : `₹${(order.totals?.total || 0).toFixed(2)}`;
+                const subtotalFormatted = window.Pricing ? window.Pricing.formatPrice(order.totals?.subtotal || 0) : `₹${(order.totals?.subtotal || 0).toFixed(2)}`;
+                const feesFormatted = window.Pricing ? window.Pricing.formatPrice(order.totals?.fees || 0) : `₹${(order.totals?.fees || 0).toFixed(2)}`;
+
+                let itemsList = (order.items || []).map(i => {
+                    const priceFmt = window.Pricing ? window.Pricing.formatPrice(i.unitPrice * (i.quantity || 1)) : `₹${(i.unitPrice * (i.quantity || 1)).toFixed(2)}`;
+                    const addonsArr = [];
+                    if (i.bobas) addonsArr.push(...i.bobas);
+                    if (i.jellies) addonsArr.push(...i.jellies);
+                    if (i.milks_foams) addonsArr.push(...i.milks_foams);
+                    if (i.syrups) addonsArr.push(...i.syrups);
+                    if (i.garnishes) addonsArr.push(...i.garnishes);
+                    const addonsStr = addonsArr.length ? `<div style="color: #FFC857; font-size: 0.8rem; margin-top: 0.2rem;">+ ${addonsArr.join(', ')}</div>` : '';
+
+                    return `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; border-bottom: 1px dashed rgba(255, 200, 87, 0.2); padding-bottom: 0.65rem;">
+                        <div>
+                            <strong>${i.quantity || 1}x ${i.name}</strong> <span class="text-muted">(${i.size || 'Medium'})</span>
+                            <div style="font-size: 0.82rem; color: rgba(255, 247, 237, 0.7);">${i.sugar || '100%'} Sugar, ${i.ice || 'Regular Ice'}</div>
+                            ${addonsStr}
+                        </div>
+                        <div style="font-weight: 700; color: #FFC857;">${priceFmt}</div>
                     </div>
                     `;
                 }).join('');
-                
-                const card = document.createElement('div');
-                card.className = 'order-card';
-                card.innerHTML = `
-                    <div class="order-header">
+
+                modalBody.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1.5px solid rgba(255, 200, 87, 0.25);">
                         <div>
-                            <h3 style="margin-bottom: 0.25rem;">${order.orderId}</h3>
-                            <span class="text-muted" style="font-size: 0.85rem;">${date} • ${order.fulfillment.type}</span>
+                            <h2 style="color: #FFC857; margin-bottom: 0.25rem; font-size: 1.6rem;">${order.orderId}</h2>
+                            <div class="text-muted" style="font-size: 0.88rem;">${dateFormatted}</div>
                         </div>
-                        <div class="status-badge status-${order.status}">${order.status}</div>
+                        <span class="status-badge status-${order.status}">${order.status}</span>
                     </div>
-                    <div class="order-item-list">
-                        ${itemsHtml}
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #FFC857; margin-bottom: 0.75rem;">Fulfillment & Customer</h4>
+                        <div style="background: rgba(43, 20, 31, 0.6); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 200, 87, 0.15); font-size: 0.9rem; line-height: 1.6;">
+                            <div><strong>Name:</strong> ${order.customer?.name || 'Customer'}</div>
+                            <div><strong>Email:</strong> ${order.customer?.email || 'N/A'}</div>
+                            ${order.customer?.phone ? `<div><strong>Phone:</strong> ${order.customer.phone}</div>` : ''}
+                            <div><strong>Type:</strong> ${order.fulfillment?.type || 'Pickup'}</div>
+                            ${order.fulfillment?.address ? `<div><strong>Address:</strong> ${order.fulfillment.address}</div>` : ''}
+                            ${order.notes ? `<div><strong>Notes:</strong> ${order.notes}</div>` : ''}
+                        </div>
                     </div>
-                    <div class="order-footer">
-                        <span class="text-muted" style="font-size: 0.9rem;">Items: ${order.items.reduce((s, i) => s + i.quantity, 0)}</span>
-                        <span class="order-total">${window.Pricing.formatPrice(order.totals.total)}</span>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #FFC857; margin-bottom: 0.75rem;">Items Ordered</h4>
+                        <div style="background: rgba(43, 20, 31, 0.6); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 200, 87, 0.15);">
+                            ${itemsList}
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(43, 20, 31, 0.6); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid rgba(255, 200, 87, 0.15); font-size: 0.92rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                            <span class="text-muted">Subtotal</span>
+                            <span>${subtotalFormatted}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <span class="text-muted">Taxes & Fees (5%)</span>
+                            <span>${feesFormatted}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 900; color: #FFC857; border-top: 1px solid rgba(255, 200, 87, 0.25); padding-top: 0.65rem;">
+                            <span>Total</span>
+                            <span>${totalFormatted}</span>
+                        </div>
                     </div>
                 `;
-                container.appendChild(card);
+
+                modal.classList.add('active');
+                modal.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+
+            closeBtn?.addEventListener('click', closeModal);
+            modal?.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
             });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            refreshBtn?.addEventListener('click', () => {
+                loadCustomerOrders();
+            });
+
+            // Initial load
+            loadCustomerOrders();
         });
     </script>
 </body>
 </html>
+

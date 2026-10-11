@@ -76,15 +76,62 @@ document.addEventListener('DOMContentLoaded', () => {
         
         formError.style.display = 'none';
         
+        // Prevent duplicate submits
+        const submitBtn = document.querySelector('#checkout-form button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Placing Order...';
+        }
+
+        const customerName = document.getElementById('c-name').value.trim();
+        const customerEmail = document.getElementById('c-email').value.trim();
+        const customerPhone = document.getElementById('c-phone').value.trim();
+
+        // Get current active user or create customer profile
+        let user = window.Storage.UserProfile ? window.Storage.UserProfile.get() : window.Storage.get(window.Storage.KEYS.USER);
+        if (!user) {
+            user = {
+                id: 'cust_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+                name: customerName,
+                email: customerEmail,
+                phone: customerPhone,
+                type: 'Customer',
+                status: 'Active Member',
+                memberSince: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+            };
+            if (window.Storage.UserProfile) {
+                window.Storage.UserProfile.save(user);
+            } else {
+                window.Storage.set(window.Storage.KEYS.USER, user);
+            }
+        } else {
+            // Keep email and name in sync if entered differently or updated
+            if (customerEmail && (!user.email || user.email === 'demo.customer@mixora.example')) {
+                user.email = customerEmail;
+                user.name = customerName || user.name;
+                user.phone = customerPhone || user.phone;
+                if (window.Storage.UserProfile) {
+                    window.Storage.UserProfile.save(user);
+                } else {
+                    window.Storage.set(window.Storage.KEYS.USER, user);
+                }
+            }
+        }
+
+        const customerId = user ? user.id : ('cust_' + customerEmail.toLowerCase().replace(/[^a-z0-9]/g, '_'));
+
         // Create Order Object
         const order = {
             orderId: 'ORD-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+            customerId: customerId,
             date: new Date().toISOString(),
             status: 'New', // New, Confirmed, Preparing, Ready, Completed, Cancelled
+            isDemo: false, // Placed by actual customer in checkout
             customer: {
-                name: document.getElementById('c-name').value,
-                email: document.getElementById('c-email').value,
-                phone: document.getElementById('c-phone').value,
+                id: customerId,
+                name: customerName,
+                email: customerEmail,
+                phone: customerPhone
             },
             fulfillment: {
                 type: fulfillment,
@@ -96,16 +143,31 @@ document.addEventListener('DOMContentLoaded', () => {
             totals: totals
         };
         
-        // Save to LocalStorage (simulate backend for demo)
-        const orders = window.Storage.get(window.Storage.KEYS.ORDERS, []);
-        orders.unshift(order);
-        window.Storage.set(window.Storage.KEYS.ORDERS, orders);
-        
-        // Clear Cart ONLY after success
-        window.ShoppingCart.clear();
-        
-        // Show Success
-        document.getElementById('success-order-id').textContent = order.orderId;
-        document.getElementById('success-modal').style.display = 'flex';
+        try {
+            // Save to LocalStorage
+            const orders = window.Storage.get(window.Storage.KEYS.ORDERS, []);
+            orders.unshift(order);
+            const saved = window.Storage.set(window.Storage.KEYS.ORDERS, orders);
+
+            if (!saved) {
+                throw new Error('Failed to save order to local storage.');
+            }
+            
+            // Clear Cart ONLY after success
+            window.ShoppingCart.clear();
+            
+            // Show Success Modal
+            document.getElementById('success-order-id').textContent = order.orderId;
+            document.getElementById('success-modal').style.display = 'flex';
+        } catch (err) {
+            console.error('Order creation error:', err);
+            formError.textContent = 'Could not place your order. Please try again.';
+            formError.style.display = 'block';
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Place Order';
+            }
+        }
     });
 });
+
