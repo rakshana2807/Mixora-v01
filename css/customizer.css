@@ -780,32 +780,119 @@ input[type=range]::-webkit-slider-thumb:hover {
         border-right: none;
         border-bottom: 1px solid rgba(255, 200, 87, 0.2);
         height: auto;
-        min-height: 520px;
-        padding: 2rem 1.5rem;
+        min-height: 440px;
+        padding: 1.75rem 1.25rem 1.5rem;
+    }
+
+    .drink-preview-container {
+        padding: 1rem 0.5rem;
+        min-height: 320px;
+    }
+
+    #drink-svg {
+        max-height: 290px;
+        max-width: 90%;
     }
 
     .controls-section {
         height: auto;
         overflow-y: visible;
-        padding: 2rem 1.5rem;
+        padding: 1.75rem 1.25rem 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .visualizer-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+    }
+
+    .visualizer-header h1 {
+        font-size: clamp(1.4rem, 5vw, 1.85rem);
+    }
+
+    .price-display {
+        font-size: 1.25rem;
+        padding: 0.35rem 0.95rem;
+    }
+
+    .visualizer-section {
+        min-height: 380px;
+        padding: 1.25rem 1rem;
+    }
+
+    .drink-preview-container {
+        min-height: 270px;
+    }
+
+    #drink-svg {
+        max-height: 240px;
+    }
+
+    #drink-svg-wrapper::after {
+        width: 180px;
+        height: 24px;
+        bottom: 4%;
+    }
+
+    .studio-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65rem;
+        margin-top: 1.25rem;
+    }
+
+    .studio-actions #btn-add-cart {
+        grid-column: 1 / -1;
     }
 }
 
 @media (max-width: 576px) {
-    .base-selector,
-    .size-selector {
+    .base-selector {
         grid-template-columns: repeat(2, 1fr);
+        gap: 0.65rem;
+    }
+
+    .base-card {
+        padding: 0.85rem 0.5rem;
+    }
+
+    .size-selector {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+
+    .card-content {
+        padding: 0.75rem 0.4rem;
+        font-size: 0.85rem;
     }
     
     .addons-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    
-    .studio-actions {
-        flex-direction: column;
-    }
-    
-    .studio-actions .btn {
-        width: 100%;
+
+    .control-group {
+        padding: 1.25rem 1rem;
+        margin-bottom: 1.15rem;
     }
 }
+
+@media (max-width: 380px) {
+    .size-selector {
+        grid-template-columns: 1fr;
+    }
+
+    .studio-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .studio-actions #btn-add-cart {
+        grid-column: auto;
+    }
+}
+

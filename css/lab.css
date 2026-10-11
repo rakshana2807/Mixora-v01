@@ -999,14 +999,61 @@
 @media (max-width: 860px) {
     .signature-drink-card {
         grid-template-columns: 1fr;
-        padding: 1.75rem;
-        gap: 1.75rem;
+        padding: 1.5rem 1.25rem;
+        gap: 1.5rem;
     }
     
     .signature-specs-grid {
         grid-template-columns: 1fr;
     }
+
+    .signature-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.65rem;
+    }
+
+    .signature-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .quiz-card-frame {
+        padding: 1.5rem 1.15rem;
+        margin: 1rem auto 2rem;
+    }
+
+    .ai-taste-matcher-banner {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .ai-matcher-split {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .ai-matcher-content h3.matcher-subtitle {
+        margin: 0 auto 1rem;
+    }
+
+    .ai-matcher-content p.matcher-desc {
+        margin: 0 auto 1.5rem;
+    }
+
+    .lab-quiz-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .lab-quiz-actions .btn-lab-primary,
+    .lab-quiz-actions .btn-lab-secondary {
+        width: 100%;
+        justify-content: center;
+    }
 }
+
 
 .rec-header {
     padding: 1.5rem 2rem;

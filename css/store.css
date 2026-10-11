@@ -475,18 +475,94 @@
 }
 
 /* Responsive */
+@media (max-width: 992px) {
+    .drinks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.75rem;
+    }
+}
+
 @media (max-width: 768px) {
+    .store-header h1 {
+        font-size: clamp(2rem, 6vw, 2.5rem);
+    }
+    .store-controls {
+        gap: 1.25rem;
+        margin-bottom: 2.25rem;
+    }
+    .search-box {
+        max-width: 100%;
+    }
+    .drinks-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .drink-card {
+        padding: 1.35rem;
+    }
+    .drink-img-container {
+        height: 190px;
+    }
     .cart-layout {
         grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+    .cart-items {
+        padding: 1.5rem;
+    }
+    .cart-summary {
+        position: static;
+        padding: 1.75rem;
     }
     .cart-item {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
     }
     .cart-item-actions {
         width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-top: 1rem;
+        align-items: center;
+        margin-top: 0.5rem;
+        border-top: 1px dashed rgba(255, 200, 87, 0.15);
+        padding-top: 0.75rem;
+    }
+    .drink-details-content {
+        padding: 1.75rem 1.25rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .drinks-grid {
+        grid-template-columns: 1fr;
+    }
+    .drink-actions-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    .drink-actions-row .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .category-filters {
+        gap: 0.45rem;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        width: 100%;
+        scrollbar-width: thin;
+        flex-wrap: nowrap;
+    }
+    .filter-btn {
+        flex-shrink: 0;
+        padding: 0.45rem 1rem;
+        font-size: 0.88rem;
+    }
+    .cart-item-img {
+        width: 72px;
+        height: 72px;
     }
 }
