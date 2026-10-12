@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/menu", "destination": "/menu.html" },
+    { "source": "/cart", "destination": "/cart.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
+    { "source": "/orders", "destination": "/orders.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/lab", "destination": "/lab.html" },
+    { "source": "/customizer", "destination": "/customizer.html" },
+    { "source": "/app", "destination": "/app.html" }
+  ]
+}
