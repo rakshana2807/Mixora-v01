@@ -1,10 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Authentication Check
-    if (!window.Storage.get('mixora_admin_token')) {
-        window.location.href = 'admin-login.html';
-        return;
-    }
-
     let lastOrderCount = 0;
     let currentDashboardFilterTab = 'all';
     
@@ -60,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.getElementById('btn-sign-out').addEventListener('click', (e) => {
+    document.getElementById('btn-sign-out')?.addEventListener('click', (e) => {
         e.preventDefault();
         window.Storage.remove('mixora_admin_token');
-        window.location.href = 'admin-login.html';
+        window.location.href = 'index.html';
     });
     
     function showToast(message) {
